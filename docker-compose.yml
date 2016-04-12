@@ -1,19 +1,25 @@
-mysql:
-  image: belun/mysql
-  volumes_from:
-    - belun_mysql_data
-  command: mysqld_safe
-web:
-  image: wordpress
-  container_name: wpbelun
-  ports:
-    - "8088:80"
-  links:
-    - mysql
-  volumes_from:
-    - belun_wordpress_data
-  environment:
-    WORDPRESS_DB_USER: "belun"
-    WORDPRESS_DB_PASSWORD: "secret"
+version: '2'
+services:
+  mysql:
+    image:  mariadb
+    volumes:
+     - belun_mysql_db:/var/lib/mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: secret
+  web:
+    image: wordpress
+    ports:
+      - "8088:80"
+    links:
+      - mysql
+    volumes:
+      - belun_wordpress:/var/www/html
+      
+    environment:
+      WORDPRESS_DB_USER: "belun"
+      WORDPRESS_DB_PASSWORD: "secret"
 
-
+volumes:
+  belun_mysql_db:
+  belun_wordpress:
