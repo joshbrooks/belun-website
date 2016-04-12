@@ -1,7 +1,6 @@
 version: '2'
 services:
   mysql:
-    image:  mariadb
     volumes:
      - belun_mysql_db:/var/lib/mysql
     restart: always
@@ -17,8 +16,9 @@ services:
       - belun_wordpress:/var/www/html
       
     environment:
-      WORDPRESS_DB_USER: "belun"
-      WORDPRESS_DB_PASSWORD: "secret"
+      WORDPRESS_DB_HOST: mysql:3306
+      WORDPRESS_DB_USER: root
+      WORDPRESS_DB_PASSWORD: secret
 
 volumes:
   belun_mysql_db:
